@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tienda Gamer - Xbox</title>
+    <style>
+        /* Estilo general para el cuerpo */
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            background-image: url('https://assets.xboxservices.com/assets/0c/90/0c9089cc-b570-4d9f-b9b4-e8697959f4fb.jpg?n=Xbox-Games-Showcase-2024_960x540.jpg');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            min-height: 100vh;
+            color: white;
+        }
+
+        /* Estilo para la sección de productos */
+        #xbox {
+            padding: 50px;
+            text-align: center;
+        }
+
+        /* Estilo para el logo de Xbox */
+        #xbox-logo {
+            margin-bottom: 30px;
+        }
+
+        /* Estilo para los productos */
+        .product-grid {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .product-card {
+            background-color: rgba(34, 139, 34, 0.85); /* Verde con transparencia, estilo Xbox */
+            border-radius: 15px;
+            padding: 20px;
+            width: 250px;
+            text-align: center;
+            color: white;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .product-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.5);
+        }
+
+        .product-card h3 {
+            font-size: 18px;
+            margin-bottom: 10px;
+        }
+
+        .product-image {
+            max-width: 100%;
+            height: auto;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5); /* Sombra alrededor de la imagen */
+        }
+
+        .button-buy {
+            background-color: #107C10; /* Verde Xbox */
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            border-radius: 5px;
+            margin-top: 10px;
+            transition: background-color 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .button-buy:hover {
+            background-color: #0e6b0e;
+            box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.5); /* Sombra al hacer hover */
+        }
+
+        /* Estilo para el botón de volver al menú */
+        .button-back {
+            background-color: #0057D8; /* Azul */
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            border-radius: 5px;
+            margin-top: 40px;
+            display: inline-block;
+            transition: background-color 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .button-back:hover {
+            background-color: #0041a5;
+            box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.5);
+        }
+
+        /* Estilo para el carrito de compras */
+        .cart {
+            background-color: rgba(0, 0, 0, 0.8);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            max-width: 400px;
+            margin: 20px auto;
+            box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.7);
+        }
+
+        .cart-items {
+            margin-bottom: 20px;
+        }
+
+        .cart button {
+            background-color: #107C10;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        /* Responsividad para pantallas pequeñas */
+        @media (max-width: 768px) {
+            .product-grid {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            #xbox {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <script>
+        let carrito = [];
+
+        function agregarAlCarrito(producto, precio) {
+            carrito.push({producto, precio});
+            alert(producto + " ha sido agregado al carrito.");
+            actualizarCarrito();
+        }
+
+        function actualizarCarrito() {
+            let carritoElement = document.getElementById("carrito-items");
+            carritoElement.innerHTML = '';
+            carrito.forEach(item => {
+                let div = document.createElement("div");
+                div.textContent = item.producto + " - $" + item.precio;
+                carritoElement.appendChild(div);
+            });
+
+            let total = carrito.reduce((acc, item) => acc + item.precio, 0);
+            document.getElementById("total").textContent = "Total: $" + total;
+        }
+
+        function procederCompra() {
+            if (carrito.length === 0) {
+                alert("El carrito está vacío. Agrega productos para comprar.");
+            } else {
+                alert("Procediendo al formulario de pago con " + carrito.length + " productos.");
+                window.location.href = `formulario.html?carrito=${encodeURIComponent(JSON.stringify(carrito))}`;
+            }
+        }
+    </script>
+
+    <section id="xbox" class="section-productos">
+        <!-- Logo de Xbox -->
+        <img id="xbox-logo" src="imagenes/iX2vSp.gif" alt="Logo de Xbox" width="700">
+
+        <!-- Video de presentación de Xbox -->
+        <iframe width="560" height="315" src="https://www.youtube.com/embed/0tUqIHwHDEc" title="Presentación de Xbox Series X" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
+        <!-- Productos Xbox -->
+        <div class="product-grid">
+            <div class="product-card">
+                <h3>Control Xbox Series X</h3>
+                <img src="imagenes/61qX3f8v5kL.jpg" alt="Control Xbox Series X" class="product-image">
+                <p>Precio: $1,000</p>
+                <button class="button-buy" onclick="agregarAlCarrito('Control Xbox Series X', 1000)">Agregar al Carrito</button>
+            </div>
+
+            <div class="product-card">
+                <h3>Consola Xbox Series X</h3>
+                <img src="imagenes/D_NQ_NP_942133-MLA74651936102_022024-O.webp" alt="Consola Xbox Series X" class="product-image">
+                <p>Precio: $9,800</p>
+                <button class="button-buy" onclick="agregarAlCarrito('Consola Xbox Series X', 9800)">Agregar al Carrito</button>
+            </div>
+
+            <div class="product-card">
+                <h3>Juego Xbox Series X - Halo Infinite</h3>
+                <img src="imagenes/81GYn0fJehL._AC_UF1000,1000_QL80_.jpg" alt="Halo Infinite" class="product-image">
+                <p>Precio: $1,000</p>
+                <button class="button-buy" onclick="agregarAlCarrito('Juego Halo Infinite', 1000)">Agregar al Carrito</button>
+            </div>
+
+            <div class="product-card">
+                <h3>Controlador Xbox Elite Edición Halo Infinite</h3>
+                <img src="imagenes/61NETdKICIL._AC_UF1000,1000_QL80_.jpg" alt="Controlador Xbox Elite" class="product-image">
+                <p>Precio: $2,000</p>
+                <button class="button-buy" onclick="agregarAlCarrito('Controlador Xbox Elite', 2000)">Agregar al Carrito</button>
+            </div>
+            <div class="product-card">
+                <h3>Auriculares Inalámbricos Xbox</h3>
+                <img src="imagenes/61EGsO96eGL._AC_UF1000,1000_QL80_.jpg" alt="Auriculares Inalámbricos Xbox" class="product-image">
+                <p>Precio: $2,500</p>
+                <button class="button-buy" onclick="agregarAlCarrito('Auriculares Inalámbricos Xbox', 2500)">Agregar al Carrito</button>
+            </div>
+
+            <div class="product-card">
+                <h3>Tarjeta de Expansión de Almacenamiento Xbox de 1T</h3>
+                <img src="imagenes/images (1).jpg" alt="Tarjeta de Almacenamiento de 1T" class="product-image">
+                <p>Precio: $3,000</p>
+                <button class="button-buy" onclick="agregarAlCarrito('Tarjeta de Expansión Xbox', 3000)">Agregar al Carrito</button>
+            </div>
+
+            <div class="product-card">
+                <h3>Kit de Carga y Juega Xbox</h3>
+                <img src="imagenes/100005108-5.jpg" alt="Kit de Carga Xbox" class="product-image">
+                <p>Precio: $500</p>
+                <button class="button-buy" onclick="agregarAlCarrito('Kit de Carga Xbox', 800)">Agregar al Carrito</button>
+            </div>
+        </div>
+
+        <!-- Carrito de compras -->
+        <div class="cart">
+            <h3>Carrito de Compras</h3>
+            <div id="carrito-items" class="cart-items">
+                <!-- Aquí se mostrarán los productos del carrito -->
+            </div>
+            <p id="total">Total: $0</p>
+            <button onclick="procederCompra()">Proceder a la Compra</button>
+        </div>
+
+        <!-- Botón para volver al menú principal -->
+        <a href="Pagina.html" class="button-back">Volver al Menú Principal</a>
+    </section>
+</body>
+</html>

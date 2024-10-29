@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formulario de Compra</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-image: url('https://img.freepik.com/foto-gratis/genial-figura-triangular-geometrica-luz-laser-neon-ideal-fondos-fondos-pantalla_181624-9331.jpg'); /* Imagen de fondo estilo gamer */
+            background-size: cover;
+            background-position: center;
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .form-container {
+            background-color: rgba(43, 43, 43, 0.9); /* Fondo oscuro con transparencia */
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
+            width: 100%;
+            max-width: 400px;
+        }
+        .form-container h2 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+        }
+        .form-group input, .form-group select, .form-group textarea {
+            width: 100%;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            background-color: #444;
+            color: white;
+        }
+        .form-group input[type="submit"] {
+            background-color: #107C10;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        .form-group input[type="submit"]:hover {
+            background-color: #0e6b0e;
+        }
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="form-container">
+        <h2>Formulario de Compra</h2>
+        <form action="compra-exitosa.html" method="POST">
+            <div class="form-group">
+                <label for="producto">Productos Seleccionados</label>
+                <textarea id="producto" name="producto" rows="4" readonly></textarea>
+            </div>
+            <div class="form-group">
+                <label for="nombre">Nombre Completo</label>
+                <input type="text" id="nombre" name="nombre" required>
+            </div>
+            <div class="form-group">
+                <label for="direccion">Dirección de Envío</label>
+                <input type="text" id="direccion" name="direccion" required>
+            </div>
+            <div class="form-group">
+                <label for="telefono">Número de Teléfono</label>
+                <input type="text" id="telefono" name="telefono" required>
+            </div>
+            <div class="form-group">
+                <label for="metodo-pago">Método de Pago</label>
+                <select id="metodo-pago" name="metodo-pago" required onchange="mostrarCamposPago()">
+                    <option value="tarjeta">Tarjeta de Crédito</option>
+                    <option value="paypal">PayPal</option>
+                    <option value="transferencia">Transferencia Bancaria</option>
+                </select>
+            </div>
+
+            <!-- Campos para tarjeta de crédito -->
+            <div id="campos-tarjeta" class="hidden">
+                <div class="form-group">
+                    <label for="numero-tarjeta">Número de Tarjeta</label>
+                    <input type="text" id="numero-tarjeta" name="numero-tarjeta" maxlength="16" pattern="\d{16}">
+                </div>
+                <div class="form-group">
+                    <label for="fecha-vencimiento">Fecha de Vencimiento (MM/AA)</label>
+                    <input type="text" id="fecha-vencimiento" name="fecha-vencimiento" maxlength="5" pattern="\d{2}/\d{2}">
+                </div>
+                <div class="form-group">
+                    <label for="cvv">CVV</label>
+                    <input type="text" id="cvv" name="cvv" maxlength="3" pattern="\d{3}">
+                </div>
+            </div>
+
+            <!-- Campos para transferencia bancaria -->
+            <div id="campos-transferencia" class="hidden">
+                <div class="form-group">
+                    <label for="clabe">CLABE Bancaria</label>
+                    <input type="text" id="clabe" name="clabe" maxlength="18" pattern="\d{18}">
+                </div>
+                <div class="form-group">
+                    <label for="banco">Nombre del Banco</label>
+                    <input type="text" id="banco" name="banco">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="sucursal">Sucursal de Envío</label>
+                <select id="sucursal" name="sucursal" required>
+                    <option value="fedex-sucursal1">FedEx - Sucursal 1</option>
+                    <option value="fedex-sucursal2">FedEx - Sucursal 2</option>
+                    <option value="dhl-sucursal1">DHL - Sucursal 1</option>
+                    <option value="dhl-sucursal2">DHL - Sucursal 2</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Finalizar Compra">
+            </div>
+        </form>
+    </div>
+
+    <script>
+        // Obtener el parámetro del carrito desde la URL
+        const params = new URLSearchParams(window.location.search);
+        const carrito = params.get('carrito');
+
+        // Mostrar los productos en el campo de texto
+        if (carrito) {
+            const productos = JSON.parse(decodeURIComponent(carrito));
+            let productoText = productos.map(item => `${item.producto} - $${item.precio}`).join('\n');
+            document.getElementById('producto').value = productoText;
+        }
+
+        // Función para mostrar los campos de tarjeta o transferencia según el método de pago seleccionado
+        function mostrarCamposPago() {
+            const metodoPago = document.getElementById('metodo-pago').value;
+            const camposTarjeta = document.getElementById('campos-tarjeta');
+            const camposTransferencia = document.getElementById('campos-transferencia');
+            
+            // Resetear los campos a su estado oculto
+            camposTarjeta.classList.add('hidden');
+            camposTransferencia.classList.add('hidden');
+
+            if (metodoPago === 'tarjeta') {
+                camposTarjeta.classList.remove('hidden');
+            } else if (metodoPago === 'transferencia') {
+                camposTransferencia.classList.remove('hidden');
+            }
+        }
+    </script>
+
+</body>
+</html>

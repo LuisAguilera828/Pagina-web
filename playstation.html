@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sección de Productos PlayStation</title>
+    <style>
+        /* Estilos generales */
+        body {
+            background-color: #1a1a1d;
+            color: #f0f0f0;
+            font-family: 'Verdana', sans-serif;
+            text-align: center;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        .logo {
+            display: inline-block;
+            margin-top: 20px;
+        }
+
+        .section-productos div {
+            background-color: rgba(0, 0, 0, 0.8);
+            border: 2px solid #0070d1;
+            margin: 20px;
+            padding: 20px;
+            display: inline-block;
+            border-radius: 15px;
+            width: 250px;
+            box-shadow: 0px 0px 15px 5px #0070d1;
+        }
+
+        img {
+            border-radius: 10px;
+        }
+
+        button {
+            background-color: #0070d1;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        button:hover {
+            background-color: #005bb5;
+            box-shadow: 0px 0px 10px 2px #005bb5;
+        }
+
+        p {
+            font-size: 1.2em;
+        }
+
+        .section-productos h3 {
+            color: #0070d1;
+            font-size: 1.5em;
+        }
+
+        body::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('https://wallpapers.com/images/hd/playstation-4k-9ck9eozd590603ze.jpg');
+            background-size: cover;
+            background-position: center;
+            opacity: 0.3;
+            z-index: -1;
+        }
+
+        .section-productos div:hover {
+            transform: scale(1.05);
+            transition: 0.3s;
+        }
+
+        .quantity-input {
+            width: 50px;
+            margin-right: 10px;
+            padding: 5px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            color: black;
+        }
+
+        .back-button {
+            margin-top: 20px;
+            background-color: #444;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            text-transform: uppercase;
+            transition: background-color 0.2s;
+        }
+
+        .back-button:hover {
+            background-color: #666;
+        }
+
+        #carrito {
+            position: fixed;
+            top: 10px;
+            right: 20px;
+            background-color: #0070d1;
+            padding: 10px 20px;
+            border-radius: 5px;
+            color: white;
+        }
+
+        .cart {
+            margin-top: 40px;
+            background-color: rgba(0, 0, 0, 0.8);
+            padding: 20px;
+            border-radius: 15px;
+            display: inline-block;
+            width: 300px;
+        }
+
+        .cart h3 {
+            color: #0070d1;
+        }
+
+        /* Ocultar formulario inicialmente */
+        #formulario-compra {
+            display: none;
+            background-color: rgba(0, 0, 0, 0.8);
+            padding: 20px;
+            border-radius: 10px;
+            width: 300px;
+            margin: 20px auto;
+            box-shadow: 0px 0px 15px 5px #0070d1;
+        }
+
+        #formulario-compra input {
+            width: 90%;
+            margin: 10px 0;
+            padding: 10px;
+            border-radius: 5px;
+            border: none;
+        }
+
+        #formulario-compra button {
+            width: 90%;
+            background-color: #0070d1;
+            color: #fff;
+            cursor: pointer;
+        }
+
+        #formulario-compra button:hover {
+            background-color: #005bb5;
+        }
+    </style>
+</head>
+<body>
+    <script>
+        let carrito = [];
+
+        // Función para agregar el producto al carrito
+        function agregarAlCarrito(id, producto, precio) {
+            let cantidadInput = document.getElementById(id);
+            let cantidad = parseInt(cantidadInput.value);
+
+            // Validar que la cantidad sea mayor que cero
+            if (cantidad > 0) {
+                let compra = { producto, precio, cantidad };
+                carrito.push(compra);
+                alert(`Has agregado ${cantidad} ${producto}(s) al carrito.`);
+                
+                actualizarCarrito();
+                mostrarProductosSeleccionados();
+            } else {
+                alert("Por favor, selecciona una cantidad válida.");
+            }
+        }
+
+        // Función para actualizar el carrito
+        function actualizarCarrito() {
+            let totalProductos = carrito.reduce((total, item) => total + item.cantidad, 0);
+            document.getElementById('carrito').innerHTML = `Carrito: ${totalProductos} productos`;
+        }
+
+        // Función para mostrar los productos seleccionados
+        function mostrarProductosSeleccionados() {
+            let listaProductos = document.getElementById('carrito-items');
+            listaProductos.innerHTML = ''; // Limpiar la lista actual
+
+            carrito.forEach(item => {
+                let elemento = document.createElement('div');
+                elemento.textContent = `${item.cantidad} x ${item.producto} - $${item.precio * item.cantidad}`;
+                listaProductos.appendChild(elemento);
+            });
+
+            // Mostrar total
+            let total = carrito.reduce((total, item) => total + (item.precio * item.cantidad), 0);
+            document.getElementById('total').textContent = `Total: $${total}`;
+        }
+
+        // Función para mostrar el formulario de compra
+        function procederCompra() {
+            document.getElementById('formulario-compra').style.display = 'block';
+        }
+    </script>
+
+    <!-- Logo de PlayStation -->
+    <img src="imagenes/descarga.gif" alt="Logo de PlayStation" class="logo" width="600">
+
+     <!-- Video de presentación de Playstation -->
+     <iframe width="560" height="315" src="https://www.youtube.com/embed/RkC0l4iekYo" title="Presentación de Playstation 5" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+    
+    <!-- Sección de productos -->
+    <section id="playstation" class="section-productos">
+        <!-- Producto 1 -->
+        <div>
+            <h3>Control DualSense PS5 rojo</h3>
+            <img src="imagenes/71-2sMke9uS._AC_UF1000,1000_QL80_.jpg" alt="Control DualSense PS5 rojo" width="150">
+            <p>Precio: $1000</p>
+            <input type="number" min="1" value="1" class="quantity-input" id="cantidad-control-rojo">
+            <button type="button" onclick="agregarAlCarrito('cantidad-control-rojo', 'Control DualSense PS5 rojo', 1000)">Agregar al Carrito</button>
+        </div>
+        
+        <!-- Producto 2 -->
+        <div>
+            <h3>Consola PlayStation 5 Slim Con 3 Juegos Incluidos</h3>
+            <img src="imagenes/images (2).jpg" alt="Consola PlayStation 5" width="150">
+            <p>Precio: $8900</p>
+            <input type="number" min="1" value="1" class="quantity-input" id="cantidad-consola-ps5">
+            <button type="button" onclick="agregarAlCarrito('cantidad-consola-ps5', 'Consola PlayStation 5 Slim Con 3 Juegos Incluidos', 8900)">Agregar al Carrito</button>
+        </div>
+        
+        <!-- Producto 3 -->
+        <div>
+            <h3>Juego PS5 - Spider-Man: Miles Morales</h3>
+            <img src="imagenes/712Z8M12mAL.jpg" alt="Spider-Man" width="150">
+            <p>Precio: $1000</p>
+            <input type="number" min="1" value="1" class="quantity-input" id="cantidad-juego-spiderman">
+            <button type="button" onclick="agregarAlCarrito('cantidad-juego-spiderman', 'Juego PS5 - Spider-Man: Miles Morales', 1000)">Agregar al Carrito</button>
+        </div>
+        
+        <!-- Producto 4 -->
+        <div>
+            <h3>Suscripción PlayStation Plus código de 1 mes</h3>
+            <img src="imagenes/images (3).jpg" alt="PlayStation Plus" width="150">
+            <p>Precio: $250</p>
+            <input type="number" min="1" value="1" class="quantity-input" id="cantidad-playstation-plus">
+            <button type="button" onclick="agregarAlCarrito('cantidad-playstation-plus', 'Suscripción PlayStation Plus código de 1 año', 2700)">Agregar al Carrito</button>
+        </div>
+    </section>
+
+    <!-- Carrito -->
+    <div id="carrito">Carrito: 0 productos</div>
+
+    <!-- Carrito de compras -->
+    <div class="cart">
+        <h3>Carrito de Compras</h3>
+        <div id="carrito-items">
+            <!-- Aquí se mostrarán los productos del carrito -->
+        </div>
+        <p id="total">Total: $0</p>
+        <button onclick="procederCompra()">Proceder a la Compra</button>
+    </div>
+
+    <!-- Formulario de Compra -->
+    <div id="formulario-compra">
+        <h3>Formulario de Compra</h3>
+        <form>
+            <label for="nombre">Nombre Completo:</label><br>
+            <input type="text" id="nombre" name="nombre" required><br>
+            
+            <label for="direccion">Dirección de Envío:</label><br>
+            <input type="text" id="direccion" name="direccion" required><br>
+            
+            <label for="tarjeta">Número de Tarjeta:</label><br>
+            <input type="text" id="tarjeta" name="tarjeta" required><br>
+            
+            <button type="submit">Finalizar Compra</button>
+        </form>
+    </div>
+
+    <!-- Botón para volver al menú -->
+    <button class="back-button" onclick="window.location.href='pagina.html'">Volver al Menú Principal</button>
+</body>
+</html>

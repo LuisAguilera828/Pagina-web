@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tienda Gamer</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-image: url('https://i0.wp.com/imgs.hipertextual.com/wp-content/uploads/2017/03/wallhaven-331273.jpg?fit=1366%2C768&quality=50&strip=all&ssl=1');
+            background-size: cover;
+            background-position: center;
+            margin: 0;
+            padding: 0;
+            color: white;
+        }
+
+        .productos-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            padding: 20px;
+            max-width: 1200px;
+            margin: 40px auto;
+        }
+
+        .producto-item {
+            background-color: rgba(0, 0, 0, 0.7);
+            border: 2px solid #e60012;
+            border-radius: 8px;
+            padding: 15px;
+            transition: transform 0.2s;
+        }
+
+        .producto-item:hover {
+            transform: scale(1.05);
+        }
+
+        .producto-item img {
+            width: 100%;
+            height: auto;
+            border-bottom: 2px solid #e60012;
+            margin-bottom: 15px;
+        }
+
+        .producto-item h3 {
+            font-size: 18px;
+            margin: 10px 0;
+            color: white;
+        }
+
+        .producto-item p {
+            font-size: 16px;
+            color: white;
+            margin-bottom: 10px;
+        }
+
+        .button-buy, .button-cart {
+            background-color: #e60012;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            text-transform: uppercase;
+            transition: background-color 0.2s;
+            margin-right: 5px; /* Espacio entre botones */
+        }
+
+        .button-buy:hover, .button-cart:hover {
+            background-color: #bf000e;
+        }
+
+        .button-back {
+            background-color: #e60012; /* Color del botón */
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            text-transform: uppercase;
+            transition: background-color 0.2s;
+            margin-top: 20px; /* Espacio superior */
+        }
+
+        .button-back:hover {
+            background-color: #bf000e; /* Color al pasar el mouse */
+        }
+
+        .quantity-input {
+            width: 50px;
+            margin-right: 10px; /* Espacio entre campo de cantidad y botón */
+            padding: 5px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            color: black;
+        }
+
+        .cart {
+            background-color: rgba(0, 0, 0, 0.8);
+            padding: 20px;
+            border-radius: 8px;
+            margin-top: 20px;
+        }
+
+        .cart-items div {
+            margin-bottom: 5px;
+        }
+    </style>
+</head>
+<body>
+    <script>
+        let carrito = [];
+        function agregarAlCarrito(producto, precio) {
+            let cantidad = parseInt(document.getElementById(`cantidad-${producto.toLowerCase().replace(/ /g, "-")}`).value);
+
+            // Verificar si ya existe el producto en el carrito
+            let itemExistente = carrito.find(item => item.producto === producto);
+            if (itemExistente) {
+                itemExistente.cantidad += cantidad; // Aumentar cantidad
+            } else {
+                carrito.push({ producto, precio, cantidad }); // Agregar nuevo producto
+            }
+
+            alert(`${cantidad} ${producto}(s) ha sido(n) agregado(s) al carrito.`);
+            actualizarCarrito();
+        }
+
+        function actualizarCarrito() {
+            let carritoElement = document.getElementById("carrito-items");
+            carritoElement.innerHTML = '';
+            carrito.forEach(item => {
+                let div = document.createElement("div");
+                div.textContent = `${item.producto} - $${item.precio} x ${item.cantidad}`;
+                carritoElement.appendChild(div);
+            });
+
+            let total = carrito.reduce((acc, item) => acc + (item.precio * item.cantidad), 0);
+            document.getElementById("total").textContent = "Total: $" + total;
+        }
+
+        function procederCompra() {
+            if (carrito.length === 0) {
+                alert("El carrito está vacío. Agrega productos para comprar.");
+            } else {
+                alert("Procediendo al formulario de pago con " + carrito.length + " productos.");
+                window.location.href = `formulario.html?carrito=${encodeURIComponent(JSON.stringify(carrito))}`;
+            }
+        }
+    </script>
+    <script>
+        function agregarAlCarritoNintendoSwitchLite() {
+            let color = document.getElementById('color-nintendo-switch-lite').value;
+            let cantidad = parseInt(document.getElementById('cantidad-nintendo-switch-lite').value);
+            let producto = `Nintendo Switch Lite (${color})`;
+            let precio = 4900;
+    
+            // Verificar si ya existe el producto en el carrito
+            let itemExistente = carrito.find(item => item.producto === producto);
+            if (itemExistente) {
+                itemExistente.cantidad += cantidad; // Aumentar cantidad
+            } else {
+                carrito.push({ producto, precio, cantidad }); // Agregar nuevo producto
+            }
+    
+            alert(`${cantidad} ${producto}(s) ha sido(n) agregado(s) al carrito.`);
+            actualizarCarrito();
+        }
+    </script>
+    
+
+    <!-- Logo de Nintendo -->
+    <img id="nintendo-logo" src="https://i.gifer.com/31Ko.gif" alt="Logo de Nintendo" width="200">
+
+     <!-- Video de presentación de Nintendo -->
+     <iframe width="560" height="315" src="https://www.youtube.com/embed/FfbAyayKynY" title="Presentación de nintendo Switch oled" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+ 
+    <!-- Botón para volver al menú principal -->
+    <button onclick="window.location.href='pagina.html'" class="button-back">Volver al Menú Principal</button>
+
+    <section id="productos" class="section-productos">
+        <div class="productos-grid">
+            <div class="producto-item">
+                <h3>Consola Nintendo Switch Oled</h3>
+                <img src="imagenes/images.jpg" alt="Consola Nintendo Switch">
+                <p>$5,500</p>
+                <input type="number" min="1" value="1" class="quantity-input" id="cantidad-consola-nintendo-switch-oled">
+                <button class="button-cart" onclick="agregarAlCarrito('Consola Nintendo Switch Oled', 5500)">Agregar al Carrito</button>
+            </div>
+            <div class="producto-item">
+                <h3>Control Pro Switch</h3>
+                <img src="imagenes/71F5nnoo8gL.jpg" alt="Control Pro Switch">
+                <p>$1,000</p>
+                <input type="number" min="1" value="1" class="quantity-input" id="cantidad-control-pro-switch">
+                <button class="button-cart" onclick="agregarAlCarrito('Control Pro Switch', 1000)">Agregar al Carrito</button>
+            </div>
+            <div class="producto-item">
+                <h3>Mario Kart 8 Deluxe</h3>
+                <img src="imagenes/80332707692574.webp" alt="Mario Kart 8 Deluxe">
+                <p>$1,000</p>
+                <input type="number" min="1" value="1" class="quantity-input" id="cantidad-mario-kart-8-deluxe">
+                <button class="button-cart" onclick="agregarAlCarrito('Mario Kart 8 Deluxe', 1000)">Agregar al Carrito</button>
+            </div>
+            <div class="producto-item">
+                <h3>Dock personalisable Nintendo Switch</h3>
+                <img src="imagenes/61sLmGczh0L.jpg" alt="Dock Nintendo Switch">
+                <p>$500</p>
+                <input type="number" min="1" value="1" class="quantity-input" id="cantidad-dock-personalisable-nintendo-switch">
+                <button class="button-cart" onclick="agregarAlCarrito('Dock personalisable Nintendo Switch', 500)">Agregar al Carrito</button>
+                <div class="producto-item">
+                    <h3>Nintendo Switch Lite</h3>
+                    <img src="imagenes/1626771_com-a246.jpg" alt="Nintendo Switch Lite">
+                    <p>$4,900</p>
+                    
+                    <!-- Menú desplegable para elegir el color -->
+                    <label for="color-nintendo-switch-lite">Elige el color:</label>
+                    <select id="color-nintendo-switch-lite" class="quantity-input">
+                        <option value="Amarillo">Amarillo</option>
+                        <option value="Azul">Azul</option>
+                        <option value="Turquesa">Turquesa</option>
+                    </select>
+                
+                    <input type="number" min="1" value="1" class="quantity-input" id="cantidad-nintendo-switch-lite">
+                    <button class="button-cart" onclick="agregarAlCarritoNintendoSwitchLite()">Agregar al Carrito</button>
+                </div>
+                
+            </div>
+        </div>
+
+        <!-- Carrito de compras -->
+        <div class="cart">
+            <h3>Carrito de Compras</h3>
+            <div id="carrito-items" class="cart-items">
+                <!-- Aquí se mostrarán los productos del carrito -->
+            </div>
+            <p id="total">Total: $0</p>
+            <button onclick="procederCompra()">Proceder a la Compra</button>
+        </div>
+    </section>
+</body>
+</html>
